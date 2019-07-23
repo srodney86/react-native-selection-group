@@ -83,7 +83,12 @@ export class SelectionHandler {
         if (this.maxSelected === 1) {
             this.selectedOption = index;
         } else if (this.selectedOption) {
-            this.selectedOption.push(index);
+            //index2 = answers.findIndex(x => x.questionId==questionItem);
+            if (this.selectedOption.indexOf(index) !== -1){
+                this.selectedOption.splice(this.selectedOption.indexOf(index),1);
+            }else{
+                this.selectedOption.push(index);
+            }
             if (this.selectedOption.length > this.maxSelected) this.selectedOption.shift();
         } else {
             this.selectedOption = [index];
