@@ -30,48 +30,52 @@ export default class SelectionGroup extends React.Component {
             getAllSelectedItemIndexes,
             ...attributes
         } = this.props;
-        
         /**
          * forceUpdate is called below to ensure a re-render happens, in case for whatever reason 
          * the client of this component doesn't take any action that forces a redraw.
          * This is actually super inefficent code, all elements are redrawn when any single element is touched.
          */
         return (
+            
             <View
                 style={[{}, containerStyle && containerStyle]}
                 {...attributes}
             >
                 {items.map((item, i) =>
-                    renderContent(
-                        item,
-                        i,
-                        isSelected(i),
-                        () => {
-                            onPress(i); 
-                            this.forceUpdate(); 
-                            if (onItemSelected) { 
-                                const selectedItems = [];
-                                if (getAllSelectedItemIndexes) {
-                                    const selectedItemIndexes = getAllSelectedItemIndexes();
-                                    if (selectedItemIndexes != null) {
-                                        for (const index of selectedItemIndexes) {
-                                            selectedItems.push(items[index]);
-                                        }
+                    <View style={[{}]}>
+{                renderContent(
+                    item,
+                    i,
+                    isSelected(i),
+                    () => {
+                        onPress(i); 
+                        this.forceUpdate(); 
+                        if (onItemSelected) { 
+                            const selectedItems = [];
+                            if (getAllSelectedItemIndexes) {
+                                const selectedItemIndexes = getAllSelectedItemIndexes();
+                                if (selectedItemIndexes != null) {
+                                    for (const index of selectedItemIndexes) {
+                                        selectedItems.push(items[index]);
                                     }
                                 }
-                                onItemSelected(item, selectedItems); 
-                            }    
-                        }
-                    )
+                            }
+                            onItemSelected(item, selectedItems); 
+                        }    
+                    }
+                    
+                )}</View>
                 )}
             </View>
         );
     }
 }
 
-export class SelectionHandler {
-    constructor(maxMultiSelect = 1) {
-        this.selectedOption = null; // An array if maxSelected > 1
+export class SelectionHandler  {
+
+
+    constructor(maxMultiSelect = 1, initialValues = null) {
+        this.selectedOption = initialValues;
         this.maxSelected = maxMultiSelect;
     }
 
