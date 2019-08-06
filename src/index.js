@@ -42,7 +42,7 @@ export default class SelectionGroup extends React.Component {
                 {...attributes}
             >
                 {items.map((item, i) =>
-                    <View style={[{}]}>
+                    <View style={[{}]} key={i}>
 {                renderContent(
                     item,
                     i,
